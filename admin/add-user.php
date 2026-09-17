@@ -1,5 +1,8 @@
 <?php include "header.php";
 include '../db.php';
+if ($_SESSION["user_role"] == '0') {
+    header("Location: {$hostname}/admin/post.php");
+}
 // ekhane $_POST er vitor save disi, karon submit button er name save deya ase.
 if (isset($_POST['save'])) {
     $fname = mysqli_real_escape_string($conn, $_POST['fname']);
@@ -11,15 +14,15 @@ if (isset($_POST['save'])) {
     $sql = "SELECT username FROM user WHERE username = '$user'";
     $result = mysqli_query($conn, $sql) or die("Query failed");
 
-      if (mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) {
         echo "<p style= 'color:red; text-align: center; margin: 10px 0;'>Username already exists </p>";
-    } else{
-        $sql1= "INSERT INTO user (first_name, last_name,username, password, role) VALUES ('$fname', '$lname', '$user', '$password', '$role') ";
-        if(mysqli_query($conn, $sql1)){
+    } else {
+        $sql1 = "INSERT INTO user (first_name, last_name,username, password, role) VALUES ('$fname', '$lname', '$user', '$password', '$role') ";
+        if (mysqli_query($conn, $sql1)) {
             header("Location: $hostname/admin/users.php");
         }
     }
-} 
+}
 ?>
 <div id="admin-content">
     <div class="container">

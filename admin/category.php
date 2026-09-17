@@ -54,7 +54,7 @@ include 'config.php';
                 } else {
                     echo "Data not found.";
                 }
-
+                // pagination query
                 $sql1 = "SELECT COUNT(category_id) FROM category";
                 $result1 = mysqli_query($conn, $sql1) or die("Query1 failed");
                 $row_db = mysqli_fetch_assoc($result1);

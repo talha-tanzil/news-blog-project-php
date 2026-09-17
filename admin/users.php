@@ -1,5 +1,8 @@
 <?php include "header.php";
 include '../db.php';
+if ($_SESSION["user_role"] == '0') {
+    header("Location: {$hostname}/admin/post.php");
+}
 ?>
 <div id="admin-content">
     <div class="container">

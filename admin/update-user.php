@@ -1,6 +1,9 @@
 <?php
 
 include 'header.php';
+if ($_SESSION["user_role"] == '0') {
+    header("Location: {$hostname}/admin/post.php");
+}
 include 'config.php';
 //submit post kora ase kina check kora hocche karon, button er name submit silo
 
