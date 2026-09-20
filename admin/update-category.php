@@ -1,5 +1,8 @@
 <?php include "header.php";
 include 'config.php';
+if($_SESSION["user_role"] == '0'){
+  header("Location: {$hostname}/admin/post.php");
+}
 //submit post kora ase kina check kora hocche karon, button er 'name' submit silo, value matter korena ekhane
 if (isset($_POST['submit'])) {
     $catId = mysqli_real_escape_string($conn, $_POST['cat_id']);

@@ -1,5 +1,8 @@
 <?php include "header.php";
 include 'config.php';
+if ($_SESSION["user_role"] == '0') {
+    header("Location: {$hostname}/admin/post.php");
+}
 ?>
 <div id="admin-content">
     <div class="container">
@@ -41,8 +44,10 @@ include 'config.php';
                                     <td class='id'><?php echo $serial; ?></td>
                                     <td><?= $row['category_name']; ?></td>
                                     <td><?= $row['post']; ?></td>
-                                    <td class='edit'><a href='update-category.php?id=<?= $row["category_id"] ?>'><i class='fa fa-edit'></i></a></td>
-                                    <td class='delete'><a href='delete-category.php?id=<?= $row["category_id"] ?>'><i class='fa fa-trash-o'></i></a></td>
+                                    <td class='edit'><a href='update-category.php?id=<?= $row["category_id"] ?>'><i
+                                                class='fa fa-edit'></i></a></td>
+                                    <td class='delete'><a href='delete-category.php?id=<?= $row["category_id"] ?>'><i
+                                                class='fa fa-trash-o'></i></a></td>
                                 </tr>
                                 <?php
                                 $serial++;

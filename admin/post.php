@@ -1,6 +1,6 @@
 <?php
 include "header.php";
-include 'config.php';
+include 'config.php';// database configuration
 ?>
 <div id="admin-content">
     <div class="container">
@@ -13,6 +13,7 @@ include 'config.php';
             </div>
             <div class="col-md-12">
                 <?php
+                /* Calculate Offset Code */
                 $limit = 3;
                 if (isset($_GET['page'])) {
                     $page = $_GET['page'];
@@ -54,14 +55,14 @@ include 'config.php';
                         <tbody>
                             <?php
                             $serial = $offset + 1;
-                            while (mysqli_fetch_assoc($result)) {
+                            while ($row = mysqli_fetch_assoc($result)) {
                                 ?>
                                 <tr>
                                     <td class='id'><?php echo $serial ?></td>
                                     <td><?= $row['title'] ?></td>
                                     <td><?= $row['category'] ?></td>
                                     <td><?= $row['post_date'] ?></td>
-                                    <td><?= $row['author'] ?></td>
+                                    <td><?= $row['username'] ?></td>
                                     <td class='edit'><a href='update-post.php?id=<?= $row['post_id'] ?>'><i
                                                 class='fa fa-edit'></i></a></td>
                                     <td class='delete'><a href='delete-post.php?id=<?= $row['post_id'] ?>&catid=<?= $row['category']; ?>'><i
