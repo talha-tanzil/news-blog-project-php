@@ -2,7 +2,7 @@
 include "config.php";
 
 if(empty($_FILES['new-image']['name'])){
-  $new_name = $_POST['old-image'];
+  $new_name = $_POST['old_image'];
 }else{
   $errors = array();
 
@@ -51,6 +51,5 @@ if($result){
 }else{
   echo "Query Failed";
 }
-
 
 ?>

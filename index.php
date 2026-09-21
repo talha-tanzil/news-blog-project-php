@@ -16,7 +16,7 @@ include 'db.php';
                         $page = 1;
                     }
                     $offset = ($page - 1) * $limit;
-                    $sql = "SELECT post.post_id, post.title, post.description,post.category, post.post_date,
+                    $sql = "SELECT post.post_id, post.title, post.description,post.category, post.post_date, post.post_img,
                     category.category_name,user.username FROM post
                     LEFT JOIN category ON post.category = category.category_id
                     LEFT JOIN user ON post.author = user.user_id
@@ -29,30 +29,36 @@ include 'db.php';
                             <div class="post-content">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <a class="post-img" href="single.php"><img src="images/post-format.jpg" alt="" /></a>
+                                        <a class="post-img" href="single.php?id=<?php echo $row['post_id']; ?>"><img
+                                                src="admin/upload/<?php echo $row['post_img']; ?>" alt="" /></a>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="inner-content clearfix">
-                                            <h3><a href='single.php'><?php echo $row['title'] ?></a>
+                                            <h3><a
+                                                    href='single.php?id=<?php echo $row['post_id']; ?>'><?php echo $row['title']; ?></a>
                                             </h3>
                                             <div class="post-information">
                                                 <span>
                                                     <i class="fa fa-tags" aria-hidden="true"></i>
-                                                    <a href='category.php'>PHP</a>
+                                                    <a href='category.php?cid=<?php echo $row['category']; ?>'><?php echo $row['category_name']; ?></a>
                                                 </span>
                                                 <span>
                                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                                    <a href='author.php'>Admin</a>
+                                                    <a href='author.php'><?php echo $row['username']; ?></a>
                                                 </span>
                                                 <span>
                                                     <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                    01 Nov, 2019
+                                                    <?php echo $row['post_date']; ?>
                                                 </span>
                                             </div>
                                             <p class="description">
-                                                <?php echo $row['title'] ?>
+                                                <?php echo substr($row['description'], 0, 130) . "..."; ?>
                                             </p>
-                                            <a class='read-more pull-right' href='single.php'>read more</a>
+                                            <a class='read-more pull-right'
+                                                href='single.php?id=<?php echo $row['post_id']; ?>'>read more</a>
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -62,77 +68,77 @@ include 'db.php';
                     } else {
                         echo "<h2>No post or result found.</h2>";
                     }
+
+
+                    /* commented static html part set forth below:
+                     <div class="post-content">
+                             <div class="row">
+                                 <div class="col-md-4">
+                                     <a class="post-img" href="single.php"><img src="images/post-format.jpg" alt=""/></a>
+                                 </div>
+                                 <div class="col-md-8">
+                                     <div class="inner-content clearfix">
+                                         <h3><a href='single.php'>Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h3>
+                                         <div class="post-information">
+                                             <span>
+                                                 <i class="fa fa-tags" aria-hidden="true"></i>
+                                                 <a href='category'>PHP</a>
+                                             </span>
+                                             <span>
+                                                 <i class="fa fa-user" aria-hidden="true"></i>
+                                                 <a href='author.php'>Admin</a>
+                                             </span>
+                                             <span>
+                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                 01 Nov, 2019
+                                             </span>
+                                         </div>
+                                         <p class="description">
+                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua....
+                                         </p>
+                                         <a class='read-more pull-right' href='single.php'>read more</a>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div> */
+
+
+
+                    // show pagination
+                    $sql1 = "SELECT * FROM post";
+                    $result1 = mysqli_query($conn, $sql1) or die("2nd outer index query failed");
+                    if (mysqli_num_rows($result1) > 0) {
+                        $total_records = mysqli_num_rows($result1);
+                        $total_page = ceil($total_records / $limit);
+                        echo "<ul class='pagination admin-pagination'>";
+                        if ($page > 1) {
+                            echo '<li><a href="index.php?page=' . ($page - 1) . '">Prev</a></li>';
+                        }
+                        for ($i = 1; $i <= $total_page; $i++) {
+                            if ($i == $page) {
+                                $active = "active";
+                            } else {
+                                $active = "";
+                            }
+                            echo '<li class="'.$active.'"><a href="index.php?page='.$i.'">'.$i.'</a></li>';
+                            if ($total_page > $page) {
+                                echo '<li><a href="index.php?page=' . ($page + 1) . '">Next</a></li>';
+                            }
+                            echo "</ul>";
+                            // pagination process ends here
+                        }
+                    }
+
                     ?>
-
-                    <!-- commented static html part set forth below: -->
-                    <!-- <div class="post-content">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <a class="post-img" href="single.php"><img src="images/post-format.jpg" alt=""/></a>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="inner-content clearfix">
-                                        <h3><a href='single.php'>Lorem ipsum dolor sit amet, consectetur adipiscing elit</a></h3>
-                                        <div class="post-information">
-                                            <span>
-                                                <i class="fa fa-tags" aria-hidden="true"></i>
-                                                <a href='category'>PHP</a>
-                                            </span>
-                                            <span>
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                                <a href='author.php'>Admin</a>
-                                            </span>
-                                            <span>
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                01 Nov, 2019
-                                            </span>
-                                        </div>
-                                        <p class="description">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua....
-                                        </p>
-                                        <a class='read-more pull-right' href='single.php'>read more</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
-
-                </div>.
-                <?php
-                // show pagination
-                $sql1 = "SELECT * FROM post";
-                $result1 = mysqli_query($conn, $sql1) or die("2nd outer index query failed");
-                $total_records = mysqli_num_rows($result1);
-                $total_page = ceil($total_records / $limit);
-                echo "<ul class='pagination admin-pagination'>";
-                if ($page > 1) {
-                    echo '<li><a href="index.php?page=' . ($page - 1) . '">Prev</a></li>';
-                }
-                for ($i = 1; $i < $total_page; $i++) {
-                    if ($i == $page) {
-                        $active = "active";
-                    } else {
-                        $active = "";
-                    }
-                    echo "<li class='.$active.'><a href='index.php?page='.$i.''>'.$i.'</a></li>";
-                    if ($total_page > $page) {
-                        echo '<li><a href="index.php?page=' . ($page + 1) . '">Next</a></li>';
-                    }
-                    echo "</ul>";
-                    // pagination process ends here
-                }
-
-                ?>
-                <!-- <ul class='pagination'>
+                    <!-- <ul class='pagination'>
                     <li class="active"><a href="">1</a></li>
                     <li><a href="">2</a></li>
                     <li><a href="">3</a></li>
                 </ul> -->
-            </div><!-- /post-container -->
+                </div><!-- /post-container -->
+            </div>
+            <?php include 'sidebar.php'; ?>
         </div>
-        <?php include 'sidebar.php'; ?>
     </div>
-</div>
 </div>
 <?php include 'footer.php'; ?>

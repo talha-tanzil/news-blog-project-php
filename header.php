@@ -1,5 +1,10 @@
+<?php
+include 'db.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,35 +18,60 @@
     <!-- Custom stlylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<!-- HEADER -->
-<div id="header">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <!-- LOGO -->
-            <div class=" col-md-offset-4 col-md-4">
-                <a href="index.php" id="logo"><img src="images/talha-news-main.png"></a>
-            </div>
-            <!-- /LOGO -->
-        </div>
-    </div>
-</div>
-<!-- /HEADER -->
-<!-- Menu Bar -->
-<div id="menu-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <ul class='menu'>
-                    <li><a href='category.php'>Business</a></li>
-                    <li><a href='category.php'>Entertainment</a></li>
-                    <li><a href='category.php'>Sports</a></li>
-                    <li><a href='category.php'>Politics</a></li>
-                </ul>
+    <!-- HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class=" col-md-offset-4 col-md-4">
+                    <a href="index.php" id="logo"><img src="images/talha-news-main.png"></a>
+                </div>
+                <!-- /LOGO -->
             </div>
         </div>
     </div>
-</div>
-<!-- /Menu Bar -->
+    <!-- /HEADER -->
+    <!-- Menu Bar -->
+    <div id="menu-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    if (isset($_GET['cid'])) {
+                        $cat_id = $_GET['cid'];
+                    }
+                    $sql = "SELECT * FROM category WHERE post>0";
+                    $result = mysqli_query($conn, $sql) or die("1st category query failed.");
+                    if (mysqli_num_rows($result) > 0) {
+                        $active = "";
+                        //$active = ""; eta ekhane deya hoise karon in case while loop e na pawa jai, tahole jeno error na dei 
+                        ?>
+                        <ul class='menu'>
+                            <li><a href="index.php">Home</a></li>
+                            <!-- <li><a href="<?php echo $hostname ?>">Home</a></li> evabe likleo hoi ; -->
+                            <?php
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                //page activate korar jonno 
+                                if (isset($_GET['cid'])) {
+                                    if ($row['category_id'] == $cat_id) {
+                                        $active = "active";
+                                    } else {
+                                        $active = "";
+                                    }
+                                }
+                                echo "<li><a class= '$active' href='category.php?cid={$row['category_id']}'>{$row['category_name']}</a></li>";
+                            }
+                            ?>
+                        </ul>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Menu Bar -->
