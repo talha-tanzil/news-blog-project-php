@@ -90,6 +90,7 @@ include 'db.php';
                         $result2 = mysqli_query($conn, $sql2) or die("2nd outer category query failed");
                         $row2 = mysqli_fetch_assoc($result2);
                         if (mysqli_num_rows($result2) > 0) {
+                            //aikhane $total_records = mysqli_num_rows($result2); hobe na karon ete record 1 ashbe.. karon er query er last e where ase & sheta 1joner data return korbe
                             $total_records = $row2['post'];
                             $total_page = ceil($total_records / $limit);
                             echo "<ul class='pagination admin-pagination'>";
