@@ -11,7 +11,7 @@ include 'db.php';
                     <?php
                     if (isset($_GET['search'])) {
 
-                        $search_term = mysqli_escape_string($conn,$_GET['search']);// $search_term = $_GET['search'];
+                        $search_term = mysqli_escape_string($conn,$_GET['search']);// $search_term = $_GET['search']; //ai 'search' value ta sidebar.php er name= 'search' theke dhora hoise 
 
                         ?>
                         <h2 class="page-heading">Search : <?php echo $search_term; ?>
